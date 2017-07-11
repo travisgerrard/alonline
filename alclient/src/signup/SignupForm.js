@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 class SignupForm extends Component {
   state = {
@@ -7,6 +8,7 @@ class SignupForm extends Component {
     email: '',
     password: '',
     passwordConfirmation: '',
+    errors: {}
   }
 
   handleChange = (e) => {
@@ -17,7 +19,14 @@ class SignupForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.userSignupRequest(this.state);
+
+    let errors = {};
+    this.setState({ errors });
+
+    this.props.userSignupRequest(this.state).then(
+      () => {},
+      (errors) => errors.response.json().then(({errors}) => this.setState({ errors }))
+    );
   }
 
   render() {
@@ -25,7 +34,10 @@ class SignupForm extends Component {
       <form className="ui form" onSubmit={this.handleSubmit}>
         <h1>Join our community!</h1>
 
-        <div className="field">
+        {!!this.state.errors.global && <div className="ui negative message"><p>{this.state.errors.global}</p></div>}
+
+
+        <div className={classnames('field', {error: !!this.state.errors.username})}>
           <label htmlFor="username">Username</label>
           <input
             name="username"
@@ -35,7 +47,7 @@ class SignupForm extends Component {
           />
         </div>
 
-        <div className="field">
+        <div className={classnames('field', {error: !!this.state.errors.email})}>
           <label htmlFor="email">Email</label>
           <input
             name="email"
@@ -44,9 +56,10 @@ class SignupForm extends Component {
             id="email"
             type="email"
           />
+          <span>{this.state.errors.email}</span>
         </div>
 
-        <div className="field">
+        <div className={classnames('field', {error: !!this.state.errors.password})}>
           <label htmlFor="password">Password</label>
           <input
             name="password"
@@ -55,9 +68,10 @@ class SignupForm extends Component {
             id="password"
             type="password"
           />
+          <span>{this.state.errors.password}</span>
         </div>
 
-        <div className="field">
+        <div className={classnames('field', {error: !!this.state.errors.passwordConfirmation})}>
           <label htmlFor="passwordConfirmation">Password Confirmation</label>
           <input
             name="passwordConfirmation"
@@ -66,6 +80,7 @@ class SignupForm extends Component {
             id="passwordConfirmation"
             type="password"
           />
+          <span>{this.state.errors.passwordConfirmation}</span>
         </div>
 
         <div className="field">
