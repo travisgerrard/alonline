@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import validateInput from '../validations/signup';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class SignupForm extends Component {
   state = {
@@ -8,7 +10,8 @@ class SignupForm extends Component {
     email: '',
     password: '',
     passwordConfirmation: '',
-    errors: {}
+    errors: {},
+    isLoading: false
   }
 
   handleChange = (e) => {
@@ -17,71 +20,66 @@ class SignupForm extends Component {
     });
   }
 
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+    if (!isValid) {
+      this.setState({ errors });
+    }
+    return isValid;
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
     let errors = {};
-    this.setState({ errors });
 
-    this.props.userSignupRequest(this.state).then(
-      () => {},
-      (errors) => errors.response.json().then(({errors}) => this.setState({ errors }))
-    );
+    if (this.isValid()) {
+      this.setState({ errors: {}, loading: true });
+      this.props.userSignupRequest(this.state).then(
+        () => {},
+        (errors) => errors.response.json().then(({errors}) => this.setState({ errors, loading: false }))
+      );
+    }
   }
 
   render() {
     return (
-      <form className="ui form" onSubmit={this.handleSubmit}>
+      <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleSubmit}>
         <h1>Join our community!</h1>
 
         {!!this.state.errors.global && <div className="ui negative message"><p>{this.state.errors.global}</p></div>}
 
+        <TextFieldGroup
+          error={this.state.errors.username}
+          label="Username"
+          onChange={this.handleChange}
+          value={this.state.username}
+          field="username"
+        />
 
-        <div className={classnames('field', {error: !!this.state.errors.username})}>
-          <label htmlFor="username">Username</label>
-          <input
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-            id="username"
-          />
-        </div>
+        <TextFieldGroup
+          error={this.state.errors.email}
+          label="Email"
+          onChange={this.handleChange}
+          value={this.state.email}
+          field="email"
+        />
 
-        <div className={classnames('field', {error: !!this.state.errors.email})}>
-          <label htmlFor="email">Email</label>
-          <input
-            name="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-            id="email"
-            type="email"
-          />
-          <span>{this.state.errors.email}</span>
-        </div>
+        <TextFieldGroup
+          error={this.state.errors.password}
+          label="Password"
+          onChange={this.handleChange}
+          value={this.state.password}
+          field="password"
+        />
 
-        <div className={classnames('field', {error: !!this.state.errors.password})}>
-          <label htmlFor="password">Password</label>
-          <input
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            id="password"
-            type="password"
-          />
-          <span>{this.state.errors.password}</span>
-        </div>
-
-        <div className={classnames('field', {error: !!this.state.errors.passwordConfirmation})}>
-          <label htmlFor="passwordConfirmation">Password Confirmation</label>
-          <input
-            name="passwordConfirmation"
-            value={this.state.passwordConfirmation}
-            onChange={this.handleChange}
-            id="passwordConfirmation"
-            type="password"
-          />
-          <span>{this.state.errors.passwordConfirmation}</span>
-        </div>
+      <TextFieldGroup
+          error={this.state.errors.passwordConfirmation}
+          label="Password Confirmation"
+          onChange={this.handleChange}
+          value={this.state.passwordConfirmation}
+          field="passwordConfirmation"
+        />
 
         <div className="field">
           <button className="ui primary button">Sign up</button>
