@@ -3,6 +3,7 @@ import { Link, Route } from 'react-router-dom';
 import Greetings from './Greetings';
 import SignUpPage from './signup/SignUpPage';
 import './App.css';
+import FlashMessagesList from './flash/FlashMessagesList';
 
 const ActiveLink = ({ label, to, activeOnlyWhenExact }) => (
   <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
@@ -20,6 +21,7 @@ class App extends Component {
             <ActiveLink activeOnlyWhenExact to="/signup" label="Sign Up" />
           </div>
         </div>
+      <FlashMessagesList />
 
         <Route exact path="/" component={Greetings} />
         <Route path="/signup" component={SignUpPage} />
