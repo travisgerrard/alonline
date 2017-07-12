@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import validateInput from '../validations/signup';
 import TextFieldGroup from '../common/TextFieldGroup';
 
+
 class SignupForm extends Component {
   state = {
     username: '',
@@ -32,18 +33,20 @@ class SignupForm extends Component {
     e.preventDefault();
 
     let errors = {};
+    this.setState({ errors });
+    const isValid = this.isValid();
 
-    if (this.isValid()) {
-      this.setState({ errors: {}, loading: true });
-      this.props.userSignupRequest(this.state).then(
-        () => {},
-        (errors) => errors.response.json().then(({errors}) => this.setState({ errors, loading: false }))
+    if (isValid) {
+      const { username, email, password, passwordConfirmation } = this.state
+      this.setState({ loading: true });
+      this.props.userSignupRequest({ username, email, password, passwordConfirmation })
+        .catch((errors) => errors.response.json().then(({errors}) => this.setState({ errors, loading: false }))
       );
     }
   }
 
   render() {
-    return (
+    const form = (
       <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleSubmit}>
         <h1>Join our community!</h1>
 
@@ -86,12 +89,13 @@ class SignupForm extends Component {
         </div>
 
       </form>
+    )
+    return (
+      <div>
+        { form }
+      </div>
     );
   }
-}
-
-SignupForm.propTypes = {
-  userSignupRequest: PropTypes.func.isRequired
 }
 
 export default SignupForm;
