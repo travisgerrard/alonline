@@ -4,6 +4,7 @@ import SignupForm from './SignupForm';
 import { connect } from 'react-redux';
 import { userSignupRequest } from '../actions/signupActions';
 import { Redirect } from 'react-router-dom';
+import { addFlashMessage } from '../actions/flashMessages';
 
 class SignUpPage extends Component {
 
@@ -13,7 +14,12 @@ class SignUpPage extends Component {
 
   userSignupRequest = ({ username, email, password, passwordConfirmation}) => {
     return this.props.userSignupRequest({ username, email, password, passwordConfirmation}).then(
-      () => { this.setState({ redirect: true })},
+      () => {
+        this.props.addFlashMessage({
+          type: 'success',
+          text: 'You signed up successfully. Welcome!'
+        });
+        this.setState({ redirect: true })},
     );
   }
 
@@ -33,4 +39,4 @@ class SignUpPage extends Component {
   }
 }
 
-export default connect(null, { userSignupRequest })(SignUpPage);
+export default connect(null, { userSignupRequest, addFlashMessage })(SignUpPage);
