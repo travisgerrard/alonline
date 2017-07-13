@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
 import Greetings from './Greetings';
 import SignUpPage from './signup/SignUpPage';
+import LoginPage from './login/LoginPage';
 import './App.css';
 import FlashMessagesList from './flash/FlashMessagesList';
 
@@ -19,12 +20,15 @@ class App extends Component {
           <ActiveLink activeOnlyWhenExact to="/" label="Red Dice" />
           <div className="right menu">
             <ActiveLink activeOnlyWhenExact to="/signup" label="Sign Up" />
+            <ActiveLink activeOnlyWhenExact to="/login" label="Login" />
           </div>
         </div>
       <FlashMessagesList />
 
         <Route exact path="/" component={Greetings} />
         <Route path="/signup" component={SignUpPage} />
+        <Route path="/login" component={LoginPage} />
+
 
       </div>
     );
