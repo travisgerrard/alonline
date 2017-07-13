@@ -23,3 +23,9 @@ export function userSignupRequest(userData) {
     })
   }
 }
+
+export function isUserExists(identifier) {
+  return dispatch => {
+    return fetch(`/api/users/${identifier}`);
+  }
+}

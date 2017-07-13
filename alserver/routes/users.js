@@ -35,6 +35,20 @@ function validateInput(data, otherValidations) {
 
 }
 
+router.get('/:identifier', (req, res) => {
+
+  User.findOne({
+    username: req.params.identifier
+  }, function (err, existingUser) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ errors: {global: "something went wrong"} });
+    }
+    return res.status(200).json({ existingUser });
+  })
+
+});
+
 router.post('/', (req, res) => {
   validateInput(req.body, commonValidations).then(({ errors, isValid }) => {
     if (isValid) {

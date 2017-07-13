@@ -2,12 +2,13 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-const TextFieldGroup = ({ field, value, label, error, type, onChange }) => {
+const TextFieldGroup = ({ field, value, label, error, type, onChange, checkUserExists }) => {
   return (
     <div className={classnames('field', {error: !!error})}>
       <label htmlFor={field}>{label}</label>
       <input
         name={field}
+        onBlur={checkUserExists}
         value={value}
         onChange={onChange}
         id={field}

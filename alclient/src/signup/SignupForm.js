@@ -29,6 +29,24 @@ class SignupForm extends Component {
     return isValid;
   }
 
+  checkUserExists = (e) => {
+    const field = e.target.name;
+    const val = e.target.value;
+    if (val !== '') {
+        this.props.isUserExists(val)
+          .then(res => res.json())
+          .then(data => {
+            let errors = this.state.errors;
+            if(data.existingUser.username) {
+              errors[field] = 'There is user with such ' + field;
+            } else {
+              errors[field] = '';
+            }
+            this.setState({ errors });
+          })
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -55,6 +73,7 @@ class SignupForm extends Component {
         <TextFieldGroup
           error={this.state.errors.username}
           label="Username"
+          checkUserExists={this.checkUserExists}
           onChange={this.handleChange}
           value={this.state.username}
           field="username"

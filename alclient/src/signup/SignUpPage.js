@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SignupForm from './SignupForm';
 import { connect } from 'react-redux';
-import { userSignupRequest } from '../actions/signupActions';
+import { userSignupRequest, isUserExists } from '../actions/signupActions';
 import { Redirect } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 
@@ -24,7 +24,7 @@ class SignUpPage extends Component {
   }
 
   render() {
-    //const { userSignupRequest } = this.props;
+    const { isUserExists } = this.props;
     return (
       <div>
         {
@@ -32,6 +32,7 @@ class SignUpPage extends Component {
           <Redirect to="/" /> :
           <SignupForm
             userSignupRequest={this.userSignupRequest}
+            isUserExists={isUserExists}
           />
         }
       </div>
@@ -39,4 +40,4 @@ class SignUpPage extends Component {
   }
 }
 
-export default connect(null, { userSignupRequest, addFlashMessage })(SignUpPage);
+export default connect(null, { userSignupRequest, addFlashMessage, isUserExists })(SignUpPage);
