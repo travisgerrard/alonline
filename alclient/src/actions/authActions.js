@@ -1,3 +1,6 @@
+import { SET_CURRENT_USER } from './types';
+var jwtDecode = require('jwt-decode')
+
 function handleResponse(response) {
   if (response.ok) {
     return response.json();
@@ -6,6 +9,13 @@ function handleResponse(response) {
     error.response = response;
     throw error;
   }
+}
+
+export function setCurrentUser(user) {
+  return {
+    type: SET_CURRENT_USER,
+    user
+  };
 }
 
 export function login(data) {
@@ -20,6 +30,9 @@ export function login(data) {
     }).then(handleResponse)
     .then(data => {
       console.log(data);
+      const token = data.token;
+      localStorage.setItem('jwtToken', token);
+      dispatch(setCurrentUser(jwtDecode(token)))
     })
   }
 }

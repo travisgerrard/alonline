@@ -9,6 +9,8 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './rootReducer';
 import registerServiceWorker from './registerServiceWorker';
+import { setCurrentUser } from './actions/authActions';
+var jwtDecode = require('jwt-decode')
 
 const store = createStore(
   rootReducer,
@@ -16,6 +18,10 @@ const store = createStore(
     applyMiddleware(thunk)
   )
 );
+
+if (localStorage.jwtToken) {
+  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)))
+}
 
 ReactDOM.render(
   <BrowserRouter>

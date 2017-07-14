@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
-import { login } from '../actions/login';
+import { login } from '../actions/authActions';
 import { Redirect } from 'react-router-dom';
 import { addFlashMessage } from '../actions/flashMessages';
 
