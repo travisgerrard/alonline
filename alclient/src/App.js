@@ -3,6 +3,7 @@ import { Link, Route, withRouter } from 'react-router-dom';
 import Greetings from './Greetings';
 import SignUpPage from './signup/SignUpPage';
 import LoginPage from './login/LoginPage';
+import NewEventPage from './events/NewEventPage';
 import './App.css';
 import FlashMessagesList from './flash/FlashMessagesList';
 import { connect } from 'react-redux';
@@ -26,6 +27,7 @@ class App extends Component {
 
     const userLinks = (
       <div className="right menu">
+        <ActiveLink activeOnlyWhenExact to="/new-event" label="New Event" />
         <a className="item" href="#" onClick={this.logout}>Logout</a>
       </div>
     );
@@ -48,6 +50,7 @@ class App extends Component {
         <Route exact path="/" component={Greetings} />
         <Route path="/signup" component={SignUpPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/new-event" component={NewEventPage} />
 
 
       </div>
