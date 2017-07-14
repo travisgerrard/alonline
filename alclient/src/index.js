@@ -26,7 +26,7 @@ if (localStorage.jwtToken) {
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+        <App />
     </Provider>
   </BrowserRouter>,
   document.getElementById('root'));
