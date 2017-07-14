@@ -50,6 +50,9 @@ class LoginForm extends Component {
       <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleSubmit}>
         <h1>Login</h1>
 
+        {!!this.state.errors.global && <div className="ui negative message"><p>{this.state.errors.global}</p></div>}
+
+
         <TextFieldGroup
           field="identifier"
           label="Username / Email"
