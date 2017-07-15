@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken'
 
 
 router.post('/', (req, res) => {
+  console.log("Commit");
   res.status(201).json({ success: true });
 });
 
