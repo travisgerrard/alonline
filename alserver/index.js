@@ -16,5 +16,8 @@ app.use('/api/users', users);
 const auth = require('./routes/auth');
 app.use('/api/auth', auth);
 
+const events = require('./routes/events');
+app.use('/api/events', events);
+
 
 app.listen(8080, () => console.log("Running on localhost:8080"));

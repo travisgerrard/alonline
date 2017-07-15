@@ -73,7 +73,6 @@ class SignupForm extends Component {
         <TextFieldGroup
           error={this.state.errors.username}
           label="Username"
-          checkUserExists={this.checkUserExists}
           onChange={this.handleChange}
           value={this.state.username}
           field="username"
