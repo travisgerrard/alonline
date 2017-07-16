@@ -18,7 +18,7 @@ class FlashMessage extends Component {
     return (
       <div className={classnames('ui', {
         'positive message': type === 'success',
-        'negative message': type === 'errer'
+        'negative message': type === 'error'
       })}>
         {text}
         <button onClick={this.onClick} className="close"><span>&times;</span></button>

@@ -18,12 +18,13 @@ export default (req, res, next) => {
         });
       } else {
         console.log(decoded);
+        // req.userId = decoded.id;
+        // next();
         User.findOne({_id: decoded.id}, 'username email', function (err, user) {
           console.log(user);
           if(!user) {
             res.status(404).json({ error: "No such user" });
           } else {
-
             req.currentUser = user;
             next();
           }

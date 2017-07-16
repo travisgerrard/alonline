@@ -4,6 +4,7 @@ import Greetings from './Greetings';
 import SignUpPage from './signup/SignUpPage';
 import LoginPage from './login/LoginPage';
 import NewEventPage from './events/NewEventPage';
+import requireAuth from './utils/requireAuth';
 import './App.css';
 import FlashMessagesList from './flash/FlashMessagesList';
 import { connect } from 'react-redux';
@@ -50,7 +51,7 @@ class App extends Component {
         <Route exact path="/" component={Greetings} />
         <Route path="/signup" component={SignUpPage} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/new-event" component={NewEventPage} />
+        <Route path="/new-event" component={requireAuth(NewEventPage)} />
 
 
       </div>
